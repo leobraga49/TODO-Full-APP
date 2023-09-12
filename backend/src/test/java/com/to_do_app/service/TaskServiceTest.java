@@ -50,6 +50,26 @@ class TaskServiceTest {
         verify(taskRepository, times(1)).findById(1L);
     }
 
+    @Test
+    void whenSaveTask_ThenReturnSavedTask() {
+        // Arrange
+        Task task = new Task();
+        task.setTitle("Test task");
+        task.setDescription("Test description");
+        task.setCompleted(false);
+
+        when(taskRepository.save(ArgumentMatchers.any(Task.class))).thenReturn(task);
+
+        // Act
+        Task returnedTask = taskService.save(task);
+
+        // Assert
+        assertEquals(task, returnedTask);
+        verify(taskRepository, times(1)).save(task);
+    }
+
+
+
 
 
 }
