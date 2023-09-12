@@ -68,6 +68,27 @@ class TaskServiceTest {
         verify(taskRepository, times(1)).save(task);
     }
 
+    @Test
+    void findAll() {
+        // Arrange
+        Task task = new Task();
+        task.setTitle("Test task");
+        task.setDescription("Test description");
+        task.setCompleted(false);
+
+        when(taskRepository.findAll()).thenReturn(List.of(task));
+
+        // Act
+        List<Task> returnedTasks = taskService.findAll();
+
+        //Assert
+        assertEquals(1, returnedTasks.size());
+        verify(taskRepository, times(1)).findAll();
+
+    }
+
+
+
 
 
 
