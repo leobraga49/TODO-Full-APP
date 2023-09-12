@@ -105,4 +105,24 @@ class TaskServiceTest {
         verify(taskRepository, times(1)).deleteById(1L);
 
     }
+
+    @Test
+    void updateTask_thenReturnTask() {
+        // Arrange
+        Task task = new Task();
+        task.setId(1L);
+        task.setTitle("Test task");
+        task.setDescription("Test description");
+        task.setCompleted(false);
+
+        when(taskRepository.findById(ArgumentMatchers.anyLong())).thenReturn(Optional.of(task));
+        when(taskRepository.save(ArgumentMatchers.any(Task.class))).thenReturn(task);
+
+        // Act
+        Task returnedTask = taskService.update(1L, task);
+
+        // Assert
+        assertEquals(task, returnedTask);
+        verify(taskRepository, times(1)).save(task);
+    }
 }
