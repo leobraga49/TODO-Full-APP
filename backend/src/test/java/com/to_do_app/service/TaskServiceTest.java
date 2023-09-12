@@ -87,10 +87,22 @@ class TaskServiceTest {
 
     }
 
+    @Test
+    void deleteTaskById() {
+        // Arrange
+        Task task = new Task();
+        task.setId(1L);
+        task.setTitle("Test task");
+        task.setDescription("Test description");
+        task.setCompleted(false);
 
+        when(taskRepository.findById(ArgumentMatchers.anyLong())).thenReturn(Optional.of(task));
 
+        // Act
+        taskService.deleteById(1L);
 
+        // Assert
+        verify(taskRepository, times(1)).deleteById(1L);
 
-
-
+    }
 }
