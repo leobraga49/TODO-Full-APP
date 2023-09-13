@@ -85,13 +85,22 @@ class TaskControllerTest {
         task.setDescription("Test description");
         task.setCompleted(false);
 
-        when(taskService.update(1L,task)).thenReturn(task);
+        when(taskService.update(1L, task)).thenReturn(task);
 
         mockMvc.perform(MockMvcRequestBuilders.put("/api/v1/tasks/1")
                         .contentType("application/json")
                         .content(objectMapper.writeValueAsString(task)))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().json(objectMapper.writeValueAsString(task)));
+    }
+
+    @Test
+    void deleteTask() throws Exception {
+
+        mockMvc.perform(MockMvcRequestBuilders.delete("/api/v1/tasks/1"))
+                .andExpect(MockMvcResultMatchers.status().isOk());
+        Mockito.verify(taskService).deleteById(1L);
+
     }
 
 }
