@@ -50,4 +50,13 @@ class TaskControllerTest {
                 .andExpect(MockMvcResultMatchers.content().json(objectMapper.writeValueAsString(tasks)));
     }
 
+    @Test
+    void getTaskById() throws Exception {
+        when(taskService.findById(1L)).thenReturn(tasks.get(0));
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/tasks/1"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().json(objectMapper.writeValueAsString(tasks.get(0))));
+    }
+
 }
