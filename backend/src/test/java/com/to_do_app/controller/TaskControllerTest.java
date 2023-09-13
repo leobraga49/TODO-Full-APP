@@ -59,4 +59,21 @@ class TaskControllerTest {
                 .andExpect(MockMvcResultMatchers.content().json(objectMapper.writeValueAsString(tasks.get(0))));
     }
 
+
+    @Test
+    void createTask() throws Exception {
+        Task task = new Task();
+        task.setTitle("Test task");
+        task.setDescription("Test description");
+        task.setCompleted(false);
+
+        when(taskService.save(task)).thenReturn(task);
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/tasks")
+                        .contentType("application/json")
+                        .content(objectMapper.writeValueAsString(task)))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().json(objectMapper.writeValueAsString(task)));
+    }
+
 }
